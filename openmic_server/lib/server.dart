@@ -48,14 +48,28 @@ void run(List<String> args) async {
   auth.AuthConfig.set(
     auth.AuthConfig(
       sendValidationEmail: (session, email, validationCode) async {
-        log("SendValidationEmail Triggered for Email: $email");
-        log("Generated Validation Code: $validationCode");
+        log('Sending validation email to $email with code $validationCode');
         return true;
       },
-      sendPasswordResetEmail: (session, email, validationCode) async {
-        log("SendPasswordResetEmail Triggered for Email: $email");
-        log("Generated Reset Code: $validationCode");
+      // sendValidationEmail: (session, email, validationCode) async {
+      //   log('Sending validation email to $email with code $validationCode');
+      //   return true;
+      // },
+      sendPasswordResetEmail: (session, email, resetCode) async {
+        print('Sending password reset email to $email with code $resetCode');
         return true;
+      },
+      onUserCreated: (session, userInfo) async {
+        if (userInfo.id != null) {
+          final user = User(userInfoId: userInfo.id!, bio: "");
+
+          try {
+            await User.db.insertRow(session, user);
+            log('User created successfully with ID: ${userInfo.id}');
+          } catch (e, sk) {
+            log('Error creating user in database: $e , StackTrace: $sk');
+          }
+        }
       },
     ),
   );
