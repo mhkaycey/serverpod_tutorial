@@ -32,47 +32,54 @@ void run(List<String> args) async {
     RouteStaticDirectory(serverDirectory: 'static', basePath: '/'),
     '/*',
   );
-  // auth.AuthConfig.set(
-  //   auth.AuthConfig(
-  //     sendValidationEmail: (session, email, validationCode) async {
-  //       log("CODE: $validationCode");
-  //       return true;
-  //     },
-  //     sendPasswordResetEmail: (session, email, validationCode) async {
-  //       log("CODE: $validationCode");
-  //       return true;
-  //     },
-  //   ),
-  // );
 
   auth.AuthConfig.set(
     auth.AuthConfig(
       sendValidationEmail: (session, email, validationCode) async {
-        log('Sending validation email to $email with code $validationCode');
+        print("Registration CODE: $validationCode");
         return true;
       },
-      // sendValidationEmail: (session, email, validationCode) async {
-      //   log('Sending validation email to $email with code $validationCode');
-      //   return true;
-      // },
-      sendPasswordResetEmail: (session, email, resetCode) async {
-        print('Sending password reset email to $email with code $resetCode');
+      sendPasswordResetEmail: (session, email, validationCode) async {
+        print("Reset CODE: $validationCode");
         return true;
       },
       onUserCreated: (session, userInfo) async {
         if (userInfo.id != null) {
-          final user = User(userInfoId: userInfo.id!, bio: "");
-
-          try {
-            await User.db.insertRow(session, user);
-            log('User created successfully with ID: ${userInfo.id}');
-          } catch (e, sk) {
-            log('Error creating user in database: $e , StackTrace: $sk');
-          }
+          final user = User(userInfoId: userInfo.id!, bio: '');
+          await User.db.insertRow(session, user);
         }
       },
     ),
   );
+  // auth.AuthConfig.set(
+  //   auth.AuthConfig(
+  //     sendValidationEmail: (session, email, validationCode) async {
+  //       log('Sending validation email to $email with code $validationCode');
+  //       return true;
+  //     },
+  //     // sendValidationEmail: (session, email, validationCode) async {
+  //     //   log('Sending validation email to $email with code $validationCode');
+  //     //   return true;
+  //     // },
+  //     sendPasswordResetEmail: (session, email, resetCode) async {
+  //       print('Sending password reset email to $email with code $resetCode');
+  //       return true;
+  //     },
+  //     onUserCreated: (session, userInfo) async {
+  //       print("onUserCreated ");
+  //       if (userInfo.id != null) {
+  //         final user = User(userInfoId: userInfo.id!, bio: "");
+  //
+  //         try {
+  //           await User.db.insertRow(session, user);
+  //           log('User created successfully with ID: ${userInfo.id}');
+  //         } catch (e, sk) {
+  //           log('Error creating user in database: $e , StackTrace: $sk');
+  //         }
+  //       }
+  //     },
+  //   ),
+  // );
   // Start the server.
   await pod.start();
 }

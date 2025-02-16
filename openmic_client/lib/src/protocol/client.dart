@@ -12,8 +12,10 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
 import 'package:openmic_client/src/protocol/user.dart' as _i3;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i4;
-import 'protocol.dart' as _i5;
+import 'package:openmic_client/src/protocol/venue_list.dart' as _i4;
+import 'package:openmic_client/src/protocol/venue.dart' as _i5;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i6;
+import 'protocol.dart' as _i7;
 
 /// {@category Endpoint}
 class EndpointExample extends _i1.EndpointRef {
@@ -43,12 +45,47 @@ class EndpointUser extends _i1.EndpointRef {
       );
 }
 
+/// {@category Endpoint}
+class EndpointVenue extends _i1.EndpointRef {
+  EndpointVenue(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'venue';
+
+  _i2.Future<_i4.VenueList> list({
+    required int limit,
+    required int page,
+  }) =>
+      caller.callServerEndpoint<_i4.VenueList>(
+        'venue',
+        'list',
+        {
+          'limit': limit,
+          'page': page,
+        },
+      );
+
+  _i2.Future<_i5.Venue?> retrieve(int id) =>
+      caller.callServerEndpoint<_i5.Venue?>(
+        'venue',
+        'retrieve',
+        {'id': id},
+      );
+
+  _i2.Future<_i5.Venue?> save(_i5.Venue venue) =>
+      caller.callServerEndpoint<_i5.Venue?>(
+        'venue',
+        'save',
+        {'venue': venue},
+      );
+}
+
 class Modules {
   Modules(Client client) {
-    auth = _i4.Caller(client);
+    auth = _i6.Caller(client);
   }
 
-  late final _i4.Caller auth;
+  late final _i6.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -67,7 +104,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i7.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -79,6 +116,7 @@ class Client extends _i1.ServerpodClientShared {
         ) {
     example = EndpointExample(this);
     user = EndpointUser(this);
+    venue = EndpointVenue(this);
     modules = Modules(this);
   }
 
@@ -86,12 +124,15 @@ class Client extends _i1.ServerpodClientShared {
 
   late final EndpointUser user;
 
+  late final EndpointVenue venue;
+
   late final Modules modules;
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'example': example,
         'user': user,
+        'venue': venue,
       };
 
   @override

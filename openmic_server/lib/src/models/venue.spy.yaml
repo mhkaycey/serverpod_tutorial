@@ -1,0 +1,19 @@
+class: Venue
+
+table: venue
+
+fields:
+  owner: User?, relation
+  hub: Hub?, relation
+  name: String
+  primaryImageUrl: String
+  bio: String
+  shortAddress: String
+  longAddress: String
+  websiteUrl: String
+  instagramUrl: String
+  latitude: double
+  longitude: double
+  isVerified: bool
+    
+ 

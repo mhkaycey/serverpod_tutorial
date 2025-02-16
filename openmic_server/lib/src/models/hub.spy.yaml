@@ -1,0 +1,9 @@
+
+
+class: Hub
+table: hub
+
+fields:
+    name: String
+    latitude: double
+    longitude: double

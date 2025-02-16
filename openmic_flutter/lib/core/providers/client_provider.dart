@@ -9,8 +9,8 @@ import 'package:openmic_client/openmic_client.dart';
 final clientProvider = Provider<Client>(
   (ref) {
     return Client(
-      // "http://${Platform.isAndroid ? "192.168.64.77" : "localhost"}:8080/",
-      "http://192.168.137.1:8080/",
+      "http://${Platform.isAndroid ? "10.0.2.2" : "localhost"}:8080/",
+      // "http://localhost:8080/",
       authenticationKeyManager: FlutterAuthenticationKeyManager(),
     )..connectivityMonitor = FlutterConnectivityMonitor();
   },

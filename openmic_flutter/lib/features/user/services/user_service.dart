@@ -8,11 +8,11 @@ class UserService {
 
   const UserService(this.client);
 
-  Future<Either<String, User>> me() async {
+  Future<Either<String, User?>> me() async {
     try {
       final user = await client.user.me();
       if (user == null) {
-        return left("User not authenticated");
+        return right(null);
       }
       log(user.toString());
       return right(user);

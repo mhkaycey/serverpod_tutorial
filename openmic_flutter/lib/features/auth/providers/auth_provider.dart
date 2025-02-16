@@ -19,28 +19,65 @@ class Auth extends _$Auth {
 
   Future<void> init() async {
     // Add initialization code here
-    log("1");
+
     await ref.read(sessionManagerProvider).initialize();
     final userInfoResult = ref.read(authServiceProvider).currentUser();
-    log("2");
+
     userInfoResult.fold((error) {
       state = AuthStateError(error: error);
     }, (userInfo) async {
-      log("3");
       if (userInfo != null) {
         final userResult = await ref.read(userServiceProvider).me();
         userResult.fold((error) {
           state = AuthStateError(error: error);
           log(error);
-          log("4");
         }, (user) {
-          state = AuthStateSuccess(user: user);
-          log(user.toString());
-          log(state.toString());
+          if (user == null) {
+            state = AuthStateGuess();
+          } else {
+            state = AuthStateSuccess(user: user);
+            log(user.toString());
+            log(state.toString());
+          }
         });
       } else {
         state = AuthStateGuess();
       }
+    });
+  }
+
+  Future<void> loginWithEmail({
+    required String email,
+    required String password,
+  }) async {
+    final result = await ref
+        .read(authServiceProvider)
+        .loginWithEmail(email: email, password: password);
+    result.fold((error) {
+      state = AuthStateError(error: error);
+    }, (userInfo) async {
+      final userResult = await ref.read(userServiceProvider).me();
+      userResult.fold((error) {
+        state = AuthStateError(error: error);
+        log(error);
+      }, (user) {
+        if (user == null) {
+          state = AuthStateGuess();
+        } else {
+          state = AuthStateSuccess(user: user);
+          log(user.toString());
+          log(state.toString());
+        }
+      });
+    });
+  }
+
+  Future<void> logout() async {
+    final result = await ref.read(authServiceProvider).signOut();
+    result.fold((error) {
+      state = AuthStateError(error: error);
+    }, (userInfo) {
+      state = AuthStateGuess();
     });
   }
 }

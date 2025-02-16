@@ -4,6 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final userServiceProvider = Provider<UserService>(
   (ref) {
-    return UserService(ref.watch(clientProvider));
+    return UserService(ref.read(clientProvider));
   },
 );

@@ -12,7 +12,9 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/example_endpoint.dart' as _i2;
 import '../endpoints/user_endpoint.dart' as _i3;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i4;
+import '../endpoints/venue_endpoint.dart' as _i4;
+import 'package:openmic_server/src/generated/venue.dart' as _i5;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i6;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -28,6 +30,12 @@ class Endpoints extends _i1.EndpointDispatch {
         ..initialize(
           server,
           'user',
+          null,
+        ),
+      'venue': _i4.VenueEndpoint()
+        ..initialize(
+          server,
+          'venue',
           null,
         ),
     };
@@ -70,6 +78,72 @@ class Endpoints extends _i1.EndpointDispatch {
         )
       },
     );
-    modules['serverpod_auth'] = _i4.Endpoints()..initializeEndpoints(server);
+    connectors['venue'] = _i1.EndpointConnector(
+      name: 'venue',
+      endpoint: endpoints['venue']!,
+      methodConnectors: {
+        'list': _i1.MethodConnector(
+          name: 'list',
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'page': _i1.ParameterDescription(
+              name: 'page',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['venue'] as _i4.VenueEndpoint).list(
+            session,
+            limit: params['limit'],
+            page: params['page'],
+          ),
+        ),
+        'retrieve': _i1.MethodConnector(
+          name: 'retrieve',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['venue'] as _i4.VenueEndpoint).retrieve(
+            session,
+            params['id'],
+          ),
+        ),
+        'save': _i1.MethodConnector(
+          name: 'save',
+          params: {
+            'venue': _i1.ParameterDescription(
+              name: 'venue',
+              type: _i1.getType<_i5.Venue>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['venue'] as _i4.VenueEndpoint).save(
+            session,
+            params['venue'],
+          ),
+        ),
+      },
+    );
+    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
   }
 }

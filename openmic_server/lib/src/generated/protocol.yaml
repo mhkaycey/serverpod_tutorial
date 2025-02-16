@@ -2,3 +2,7 @@ example:
   - hello:
 user:
   - me:
+venue:
+  - list:
+  - retrieve:
+  - save:

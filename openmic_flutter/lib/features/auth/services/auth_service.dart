@@ -26,6 +26,7 @@ class AuthService {
     required String email,
     required String password,
   }) async {
+    log('Attempting to login: email=$email');
     try {
       final result =
           await client.modules.auth.email.authenticate(email, password);
@@ -33,12 +34,13 @@ class AuthService {
       if (!result.success) {
         return left('Incorrect email or password.');
       }
+      log('Login successful for email=$email');
 
       if (result.userInfo == null) {
         return left(
             'User information could not be retrieved. Please try again later.');
       }
-
+      log('Key: ${result.key}');
       if (result.keyId == null || result.key == null) {
         return left('Authentication key missing. Contact support.');
       }
@@ -48,6 +50,8 @@ class AuthService {
         result.keyId!,
         result.key!,
       );
+      log('User logged in successfully');
+      log('User info: ${result.userInfo}');
       return right(result.userInfo!);
     } catch (e, st) {
       log('Error during login: $e');
@@ -69,7 +73,7 @@ class AuthService {
         email,
         password,
       );
-
+      log("Result: $result");
       if (!result) {
         log('Account creation request failed for email=$email');
         return left(

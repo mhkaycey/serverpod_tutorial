@@ -1,0 +1,10 @@
+class: VenueList  
+
+fields:
+    count: int
+    results: List<Venue>
+    page: int
+    limit: int
+    numPages: int
+    canLoadMore: bool
+ 
