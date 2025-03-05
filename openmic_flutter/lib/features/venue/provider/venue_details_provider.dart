@@ -19,11 +19,10 @@ Future<Venue?> venueDetail(Ref ref, int id) async {
         return Venue(
           ownerId: authState.user.id!,
           hubId: 1,
-          name: 'test',
+          name: '',
           primaryImageUrl: '',
           bio: '',
-          shortAddress: '',
-          longAddress: '',
+          address: '',
           websiteUrl: '',
           instagramUrl: '',
           latitude: 0,

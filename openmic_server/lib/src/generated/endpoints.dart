@@ -10,35 +10,84 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
-import '../endpoints/example_endpoint.dart' as _i2;
-import '../endpoints/user_endpoint.dart' as _i3;
-import '../endpoints/venue_endpoint.dart' as _i4;
-import 'package:openmic_server/src/generated/venue.dart' as _i5;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i6;
+import '../endpoints/asset_endpoint.dart' as _i2;
+import '../endpoints/example_endpoint.dart' as _i3;
+import '../endpoints/user_endpoint.dart' as _i4;
+import '../endpoints/venue_endpoint.dart' as _i5;
+import 'package:openmic_server/src/generated/venue.dart' as _i6;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
   void initializeEndpoints(_i1.Server server) {
     var endpoints = <String, _i1.Endpoint>{
-      'example': _i2.ExampleEndpoint()
+      'asset': _i2.AssetEndpoint()
+        ..initialize(
+          server,
+          'asset',
+          null,
+        ),
+      'example': _i3.ExampleEndpoint()
         ..initialize(
           server,
           'example',
           null,
         ),
-      'user': _i3.UserEndpoint()
+      'user': _i4.UserEndpoint()
         ..initialize(
           server,
           'user',
           null,
         ),
-      'venue': _i4.VenueEndpoint()
+      'venue': _i5.VenueEndpoint()
         ..initialize(
           server,
           'venue',
           null,
         ),
     };
+    connectors['asset'] = _i1.EndpointConnector(
+      name: 'asset',
+      endpoint: endpoints['asset']!,
+      methodConnectors: {
+        'getUploadDescription': _i1.MethodConnector(
+          name: 'getUploadDescription',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['asset'] as _i2.AssetEndpoint).getUploadDescription(
+            session,
+            params['path'],
+          ),
+        ),
+        'verifyUpload': _i1.MethodConnector(
+          name: 'verifyUpload',
+          params: {
+            'path': _i1.ParameterDescription(
+              name: 'path',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['asset'] as _i2.AssetEndpoint).verifyUpload(
+            session,
+            params['path'],
+          ),
+        ),
+      },
+    );
     connectors['example'] = _i1.EndpointConnector(
       name: 'example',
       endpoint: endpoints['example']!,
@@ -56,7 +105,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['example'] as _i2.ExampleEndpoint).hello(
+              (endpoints['example'] as _i3.ExampleEndpoint).hello(
             session,
             params['name'],
           ),
@@ -74,7 +123,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i3.UserEndpoint).me(session),
+              (endpoints['user'] as _i4.UserEndpoint).me(session),
         )
       },
     );
@@ -100,7 +149,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['venue'] as _i4.VenueEndpoint).list(
+              (endpoints['venue'] as _i5.VenueEndpoint).list(
             session,
             limit: params['limit'],
             page: params['page'],
@@ -119,7 +168,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['venue'] as _i4.VenueEndpoint).retrieve(
+              (endpoints['venue'] as _i5.VenueEndpoint).retrieve(
             session,
             params['id'],
           ),
@@ -129,7 +178,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'venue': _i1.ParameterDescription(
               name: 'venue',
-              type: _i1.getType<_i5.Venue>(),
+              type: _i1.getType<_i6.Venue>(),
               nullable: false,
             )
           },
@@ -137,13 +186,49 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['venue'] as _i4.VenueEndpoint).save(
+              (endpoints['venue'] as _i5.VenueEndpoint).save(
             session,
             params['venue'],
           ),
         ),
+        'searchPlace': _i1.MethodConnector(
+          name: 'searchPlace',
+          params: {
+            'query': _i1.ParameterDescription(
+              name: 'query',
+              type: _i1.getType<String>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['venue'] as _i5.VenueEndpoint).searchPlace(
+            session,
+            params['query'],
+          ),
+        ),
+        'map': _i1.MethodConnector(
+          name: 'map',
+          params: {
+            'hubId': _i1.ParameterDescription(
+              name: 'hubId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['venue'] as _i5.VenueEndpoint).map(
+            session,
+            params['hubId'],
+          ),
+        ),
       },
     );
-    modules['serverpod_auth'] = _i6.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
   }
 }

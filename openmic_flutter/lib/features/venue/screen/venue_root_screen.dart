@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:openmic_flutter/features/auth/screens/login_screen.dart';
 import 'package:openmic_flutter/features/venue/component/venue_list_component.dart';
-import 'package:openmic_flutter/features/venue/screen/venue_edit_screen.dart';
+import 'package:openmic_flutter/features/venue/component/venue_map_comp.dart';
+import 'package:openmic_flutter/features/venue/screen/google_place_search.dart';
 
-class VenueRootScreen extends StatelessWidget {
+class VenueRootScreen extends ConsumerWidget {
   const VenueRootScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -22,8 +24,28 @@ class VenueRootScreen extends StatelessWidget {
           ),
         ],
       ),
-
-      body: VenueListComponent(),
+      body: DefaultTabController(
+        length: 2,
+        child: Column(children: [
+          TabBar(
+            tabs: [
+              Tab(
+                icon: Icon(Icons.list),
+              ),
+              Tab(
+                icon: Icon(Icons.map),
+              ),
+            ],
+          ),
+          Expanded(
+              child: TabBarView(children: [
+            VenueListComponent(),
+            VenueMapComponent(),
+          ])),
+        ]),
+      ),
+      // body: VenueListComponent(),
+      // body: VenueMapComponent(),
       // body: Consumer(builder: (context, ref, _) {
       //   return Center(
       //     child: ElevatedButton(
@@ -66,7 +88,11 @@ class VenueRootScreen extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.push(VenueEditScreen.route(0));
+          context.push(GooglePlaceSearchScreen.route());
+          // ref
+          //     .read(venueServiceProvider)
+          //     .searchForPlace("Prefab Aladinma Owerri");
+          // context.push(VenueEditScreen.route(0));
         },
         child: Icon(Icons.add),
       ),

@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:openmic_flutter/features/auth/providers/auth_provider.dart';
 
+import 'core/providers/bootstrap_provider.dart';
 import 'features/navigation/app_router.dart';
 
 void main() {
@@ -11,37 +9,42 @@ void main() {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends ConsumerStatefulWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  bool booting = true;
-  @override
-  void initState() {
-    init();
-    super.initState();
-  }
-
-  init() async {
-    await ref.read(authProvider.notifier).init();
-    log("Init Lodaing");
-    setState(() {
-      booting = false;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.read(routerProvider);
+    final booting = ref.watch(bootstrapProvider);
+
+    if (booting) {
+      print("Booting... $booting");
+      return MaterialApp(
+        title: "Serverpod Demo",
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
 
     return MaterialApp.router(
       title: 'Serverpod Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+        ),
       ),
       routeInformationProvider: router.routeInformationProvider,
       routerDelegate: router.routerDelegate,

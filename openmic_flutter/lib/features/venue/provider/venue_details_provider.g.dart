@@ -6,7 +6,7 @@ part of 'venue_details_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$venueDetailHash() => r'ca1bd2047be01bd98da0b74e0d59c4870a81363f';
+String _$venueDetailHash() => r'eb8455623bf153f15c34a9efd67f887660634cf9';
 
 /// Copied from Dart SDK
 class _SystemHash {

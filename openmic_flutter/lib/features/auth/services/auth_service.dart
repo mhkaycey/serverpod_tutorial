@@ -1,10 +1,11 @@
 import 'dart:developer';
 
 import 'package:fpdart/fpdart.dart';
+// ignore: depend_on_referenced_packages
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as auth;
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 
 import 'package:openmic_client/openmic_client.dart';
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as auth;
 
 class AuthService {
   final Client client;

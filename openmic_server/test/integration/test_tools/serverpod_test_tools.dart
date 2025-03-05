@@ -17,6 +17,7 @@ import 'dart:async' as _i3;
 import 'package:openmic_server/src/generated/user.dart' as _i4;
 import 'package:openmic_server/src/generated/venue_list.dart' as _i5;
 import 'package:openmic_server/src/generated/venue.dart' as _i6;
+import 'package:openmic_server/src/generated/google_place.dart' as _i7;
 import 'package:openmic_server/src/generated/protocol.dart';
 import 'package:openmic_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -97,6 +98,8 @@ void withServerpod(
 }
 
 class TestEndpoints {
+  late final _AssetEndpoint asset;
+
   late final _ExampleEndpoint example;
 
   late final _UserEndpoint user;
@@ -111,6 +114,10 @@ class _InternalTestEndpoints extends TestEndpoints
     _i2.SerializationManager serializationManager,
     _i2.EndpointDispatch endpoints,
   ) {
+    asset = _AssetEndpoint(
+      endpoints,
+      serializationManager,
+    );
     example = _ExampleEndpoint(
       endpoints,
       serializationManager,
@@ -123,6 +130,75 @@ class _InternalTestEndpoints extends TestEndpoints
       endpoints,
       serializationManager,
     );
+  }
+}
+
+class _AssetEndpoint {
+  _AssetEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<String?> getUploadDescription(
+    _i1.TestSessionBuilder sessionBuilder,
+    String path,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'asset',
+        method: 'getUploadDescription',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'asset',
+          methodName: 'getUploadDescription',
+          parameters: _i1.testObjectToJson({'path': path}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<String?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<bool> verifyUpload(
+    _i1.TestSessionBuilder sessionBuilder,
+    String path,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'asset',
+        method: 'verifyUpload',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'asset',
+          methodName: 'verifyUpload',
+          parameters: _i1.testObjectToJson({'path': path}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<bool>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
   }
 }
 
@@ -297,6 +373,64 @@ class _VenueEndpoint {
           _localUniqueSession,
           _localCallContext.arguments,
         ) as _i3.Future<_i6.Venue?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i7.GooglePlace>> searchPlace(
+    _i1.TestSessionBuilder sessionBuilder,
+    String query,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'venue',
+        method: 'searchPlace',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'venue',
+          methodName: 'searchPlace',
+          parameters: _i1.testObjectToJson({'query': query}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<List<_i7.GooglePlace>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<List<_i6.Venue>> map(
+    _i1.TestSessionBuilder sessionBuilder,
+    int hubId,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'venue',
+        method: 'map',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'venue',
+          methodName: 'map',
+          parameters: _i1.testObjectToJson({'hubId': hubId}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<List<_i6.Venue>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

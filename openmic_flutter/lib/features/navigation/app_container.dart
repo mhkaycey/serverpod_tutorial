@@ -7,13 +7,14 @@ class AppContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Column(
       children: [
         Expanded(
           child: navigationShell,
         ),
         NavigationBar(
-          // height: 56,
+          height: size.height * 0.06,
           selectedIndex: navigationShell.currentIndex,
           onDestinationSelected: (index) {
             navigationShell.goBranch(index,

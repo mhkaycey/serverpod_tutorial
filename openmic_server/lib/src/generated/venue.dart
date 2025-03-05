@@ -23,8 +23,8 @@ abstract class Venue implements _i1.TableRow, _i1.ProtocolSerialization {
     required this.name,
     required this.primaryImageUrl,
     required this.bio,
-    required this.shortAddress,
-    required this.longAddress,
+    this.googlePlaceId,
+    required this.address,
     required this.websiteUrl,
     required this.instagramUrl,
     required this.latitude,
@@ -41,8 +41,8 @@ abstract class Venue implements _i1.TableRow, _i1.ProtocolSerialization {
     required String name,
     required String primaryImageUrl,
     required String bio,
-    required String shortAddress,
-    required String longAddress,
+    String? googlePlaceId,
+    required String address,
     required String websiteUrl,
     required String instagramUrl,
     required double latitude,
@@ -66,8 +66,8 @@ abstract class Venue implements _i1.TableRow, _i1.ProtocolSerialization {
       name: jsonSerialization['name'] as String,
       primaryImageUrl: jsonSerialization['primaryImageUrl'] as String,
       bio: jsonSerialization['bio'] as String,
-      shortAddress: jsonSerialization['shortAddress'] as String,
-      longAddress: jsonSerialization['longAddress'] as String,
+      googlePlaceId: jsonSerialization['googlePlaceId'] as String?,
+      address: jsonSerialization['address'] as String,
       websiteUrl: jsonSerialization['websiteUrl'] as String,
       instagramUrl: jsonSerialization['instagramUrl'] as String,
       latitude: (jsonSerialization['latitude'] as num).toDouble(),
@@ -97,9 +97,9 @@ abstract class Venue implements _i1.TableRow, _i1.ProtocolSerialization {
 
   String bio;
 
-  String shortAddress;
+  String? googlePlaceId;
 
-  String longAddress;
+  String address;
 
   String websiteUrl;
 
@@ -123,8 +123,8 @@ abstract class Venue implements _i1.TableRow, _i1.ProtocolSerialization {
     String? name,
     String? primaryImageUrl,
     String? bio,
-    String? shortAddress,
-    String? longAddress,
+    String? googlePlaceId,
+    String? address,
     String? websiteUrl,
     String? instagramUrl,
     double? latitude,
@@ -142,8 +142,8 @@ abstract class Venue implements _i1.TableRow, _i1.ProtocolSerialization {
       'name': name,
       'primaryImageUrl': primaryImageUrl,
       'bio': bio,
-      'shortAddress': shortAddress,
-      'longAddress': longAddress,
+      if (googlePlaceId != null) 'googlePlaceId': googlePlaceId,
+      'address': address,
       'websiteUrl': websiteUrl,
       'instagramUrl': instagramUrl,
       'latitude': latitude,
@@ -163,8 +163,8 @@ abstract class Venue implements _i1.TableRow, _i1.ProtocolSerialization {
       'name': name,
       'primaryImageUrl': primaryImageUrl,
       'bio': bio,
-      'shortAddress': shortAddress,
-      'longAddress': longAddress,
+      if (googlePlaceId != null) 'googlePlaceId': googlePlaceId,
+      'address': address,
       'websiteUrl': websiteUrl,
       'instagramUrl': instagramUrl,
       'latitude': latitude,
@@ -221,8 +221,8 @@ class _VenueImpl extends Venue {
     required String name,
     required String primaryImageUrl,
     required String bio,
-    required String shortAddress,
-    required String longAddress,
+    String? googlePlaceId,
+    required String address,
     required String websiteUrl,
     required String instagramUrl,
     required double latitude,
@@ -237,8 +237,8 @@ class _VenueImpl extends Venue {
           name: name,
           primaryImageUrl: primaryImageUrl,
           bio: bio,
-          shortAddress: shortAddress,
-          longAddress: longAddress,
+          googlePlaceId: googlePlaceId,
+          address: address,
           websiteUrl: websiteUrl,
           instagramUrl: instagramUrl,
           latitude: latitude,
@@ -256,8 +256,8 @@ class _VenueImpl extends Venue {
     String? name,
     String? primaryImageUrl,
     String? bio,
-    String? shortAddress,
-    String? longAddress,
+    Object? googlePlaceId = _Undefined,
+    String? address,
     String? websiteUrl,
     String? instagramUrl,
     double? latitude,
@@ -273,8 +273,9 @@ class _VenueImpl extends Venue {
       name: name ?? this.name,
       primaryImageUrl: primaryImageUrl ?? this.primaryImageUrl,
       bio: bio ?? this.bio,
-      shortAddress: shortAddress ?? this.shortAddress,
-      longAddress: longAddress ?? this.longAddress,
+      googlePlaceId:
+          googlePlaceId is String? ? googlePlaceId : this.googlePlaceId,
+      address: address ?? this.address,
       websiteUrl: websiteUrl ?? this.websiteUrl,
       instagramUrl: instagramUrl ?? this.instagramUrl,
       latitude: latitude ?? this.latitude,
@@ -306,12 +307,12 @@ class VenueTable extends _i1.Table {
       'bio',
       this,
     );
-    shortAddress = _i1.ColumnString(
-      'shortAddress',
+    googlePlaceId = _i1.ColumnString(
+      'googlePlaceId',
       this,
     );
-    longAddress = _i1.ColumnString(
-      'longAddress',
+    address = _i1.ColumnString(
+      'address',
       this,
     );
     websiteUrl = _i1.ColumnString(
@@ -350,9 +351,9 @@ class VenueTable extends _i1.Table {
 
   late final _i1.ColumnString bio;
 
-  late final _i1.ColumnString shortAddress;
+  late final _i1.ColumnString googlePlaceId;
 
-  late final _i1.ColumnString longAddress;
+  late final _i1.ColumnString address;
 
   late final _i1.ColumnString websiteUrl;
 
@@ -398,8 +399,8 @@ class VenueTable extends _i1.Table {
         name,
         primaryImageUrl,
         bio,
-        shortAddress,
-        longAddress,
+        googlePlaceId,
+        address,
         websiteUrl,
         instagramUrl,
         latitude,

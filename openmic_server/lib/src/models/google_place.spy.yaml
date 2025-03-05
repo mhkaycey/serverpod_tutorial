@@ -1,0 +1,8 @@
+class: GooglePlace
+
+fields:
+    placeId: String
+    name: String
+    latitude: double
+    longitude: double
+    address: String

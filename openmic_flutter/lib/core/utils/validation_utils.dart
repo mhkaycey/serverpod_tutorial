@@ -80,8 +80,11 @@ class ValidationUtils {
     return null;
   }
 
-  static String? formValidatorUrl(String? value, String label,
-      {bool valueRequired = true}) {
+  static String? formValidatorUrl(
+    String? value,
+    String label, {
+    bool valueRequired = true,
+  }) {
     if (value == null) {
       return "$label Required";
     }

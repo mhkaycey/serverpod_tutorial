@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_server/serverpod_auth_server.dart' as auth;
+import 'package:serverpod_cloud_storage_gcp/serverpod_cloud_storage_gcp.dart'
+    as gcp;
 import 'package:openmic_server/src/web/routes/root.dart';
 
 import 'src/generated/protocol.dart';
@@ -51,35 +53,15 @@ void run(List<String> args) async {
       },
     ),
   );
-  // auth.AuthConfig.set(
-  //   auth.AuthConfig(
-  //     sendValidationEmail: (session, email, validationCode) async {
-  //       log('Sending validation email to $email with code $validationCode');
-  //       return true;
-  //     },
-  //     // sendValidationEmail: (session, email, validationCode) async {
-  //     //   log('Sending validation email to $email with code $validationCode');
-  //     //   return true;
-  //     // },
-  //     sendPasswordResetEmail: (session, email, resetCode) async {
-  //       print('Sending password reset email to $email with code $resetCode');
-  //       return true;
-  //     },
-  //     onUserCreated: (session, userInfo) async {
-  //       print("onUserCreated ");
-  //       if (userInfo.id != null) {
-  //         final user = User(userInfoId: userInfo.id!, bio: "");
-  //
-  //         try {
-  //           await User.db.insertRow(session, user);
-  //           log('User created successfully with ID: ${userInfo.id}');
-  //         } catch (e, sk) {
-  //           log('Error creating user in database: $e , StackTrace: $sk');
-  //         }
-  //       }
-  //     },
-  //   ),
-  // );
-  // Start the server.
+
+  pod.addCloudStorage(
+    gcp.GoogleCloudStorage(
+      serverpod: pod,
+      storageId: 'public',
+      region: 'auto',
+      public: true,
+      bucket: 'openmic-develop',
+    ),
+  );
   await pod.start();
 }

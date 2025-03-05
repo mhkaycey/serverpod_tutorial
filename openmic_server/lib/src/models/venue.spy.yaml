@@ -8,8 +8,8 @@ fields:
   name: String
   primaryImageUrl: String
   bio: String
-  shortAddress: String
-  longAddress: String
+  googlePlaceId: String?
+  address: String
   websiteUrl: String
   instagramUrl: String
   latitude: double

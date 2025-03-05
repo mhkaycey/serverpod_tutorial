@@ -14,6 +14,8 @@ class VenueEditScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final venueData = ref.watch(venueDetailProvider(venueId));
+    // log(venueData.toString());
+    // log(venueId.toString());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,7 +30,7 @@ class VenueEditScreen extends ConsumerWidget {
           }
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: VenueFormComponent(venue: venue),
+            child: VenueFormComponent(),
           );
         },
         loading: () => Center(

@@ -14,8 +14,30 @@ import 'dart:async' as _i2;
 import 'package:openmic_client/src/protocol/user.dart' as _i3;
 import 'package:openmic_client/src/protocol/venue_list.dart' as _i4;
 import 'package:openmic_client/src/protocol/venue.dart' as _i5;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i6;
-import 'protocol.dart' as _i7;
+import 'package:openmic_client/src/protocol/google_place.dart' as _i6;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
+import 'protocol.dart' as _i8;
+
+/// {@category Endpoint}
+class EndpointAsset extends _i1.EndpointRef {
+  EndpointAsset(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'asset';
+
+  _i2.Future<String?> getUploadDescription(String path) =>
+      caller.callServerEndpoint<String?>(
+        'asset',
+        'getUploadDescription',
+        {'path': path},
+      );
+
+  _i2.Future<bool> verifyUpload(String path) => caller.callServerEndpoint<bool>(
+        'asset',
+        'verifyUpload',
+        {'path': path},
+      );
+}
 
 /// {@category Endpoint}
 class EndpointExample extends _i1.EndpointRef {
@@ -78,14 +100,28 @@ class EndpointVenue extends _i1.EndpointRef {
         'save',
         {'venue': venue},
       );
+
+  _i2.Future<List<_i6.GooglePlace>> searchPlace(String query) =>
+      caller.callServerEndpoint<List<_i6.GooglePlace>>(
+        'venue',
+        'searchPlace',
+        {'query': query},
+      );
+
+  _i2.Future<List<_i5.Venue>> map(int hubId) =>
+      caller.callServerEndpoint<List<_i5.Venue>>(
+        'venue',
+        'map',
+        {'hubId': hubId},
+      );
 }
 
 class Modules {
   Modules(Client client) {
-    auth = _i6.Caller(client);
+    auth = _i7.Caller(client);
   }
 
-  late final _i6.Caller auth;
+  late final _i7.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -104,7 +140,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i7.Protocol(),
+          _i8.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -114,11 +150,14 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
+    asset = EndpointAsset(this);
     example = EndpointExample(this);
     user = EndpointUser(this);
     venue = EndpointVenue(this);
     modules = Modules(this);
   }
+
+  late final EndpointAsset asset;
 
   late final EndpointExample example;
 
@@ -130,6 +169,7 @@ class Client extends _i1.ServerpodClientShared {
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'asset': asset,
         'example': example,
         'user': user,
         'venue': venue,

@@ -46,4 +46,24 @@ class VenueService {
       return Left(e.toString());
     }
   }
+
+  Future<Either<String, List<GooglePlace>>> searchForPlace(String query) async {
+    try {
+      final result = await client.venue.searchPlace(query);
+      log(result.toString());
+      return Right(result);
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
+
+  Future<Either<String, List<Venue>>> map(int hubId) async {
+    try {
+      final result = await client.venue.map(hubId);
+      log(result.toString());
+      return Right(result);
+    } catch (e) {
+      return left(e.toString());
+    }
+  }
 }
