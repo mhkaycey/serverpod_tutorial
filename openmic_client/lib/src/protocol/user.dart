@@ -50,6 +50,9 @@ abstract class User implements _i1.SerializableModel {
 
   String bio;
 
+  /// Returns a shallow copy of this [User]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   User copyWith({
     int? id,
     int? userInfoId,
@@ -87,6 +90,9 @@ class _UserImpl extends User {
           bio: bio,
         );
 
+  /// Returns a shallow copy of this [User]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   User copyWith({
     Object? id = _Undefined,

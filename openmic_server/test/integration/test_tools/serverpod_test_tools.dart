@@ -14,10 +14,12 @@
 import 'package:serverpod_test/serverpod_test.dart' as _i1;
 import 'package:serverpod/serverpod.dart' as _i2;
 import 'dart:async' as _i3;
-import 'package:openmic_server/src/generated/user.dart' as _i4;
-import 'package:openmic_server/src/generated/venue_list.dart' as _i5;
-import 'package:openmic_server/src/generated/venue.dart' as _i6;
-import 'package:openmic_server/src/generated/google_place.dart' as _i7;
+import 'package:openmic_server/src/generated/event_template_list.dart' as _i4;
+import 'package:openmic_server/src/generated/event_template.dart' as _i5;
+import 'package:openmic_server/src/generated/user.dart' as _i6;
+import 'package:openmic_server/src/generated/venue_list.dart' as _i7;
+import 'package:openmic_server/src/generated/venue.dart' as _i8;
+import 'package:openmic_server/src/generated/google_place.dart' as _i9;
 import 'package:openmic_server/src/generated/protocol.dart';
 import 'package:openmic_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -67,12 +69,15 @@ export 'package:serverpod_test/serverpod_test_public_exports.dart';
 /// [testGroupTagsOverride] By default Serverpod test tools tags the `withServerpod` test group with `"integration"`.
 /// This is to provide a simple way to only run unit or integration tests.
 /// This property allows this tag to be overridden to something else. Defaults to `['integration']`.
+///
+/// [experimentalFeatures] Optionally specify experimental features. See [Serverpod] for more information.
 @_i1.isTestGroup
 void withServerpod(
   String testGroupName,
   _i1.TestClosure<TestEndpoints> testClosure, {
   bool? applyMigrations,
   bool? enableSessionLogging,
+  _i2.ExperimentalFeatures? experimentalFeatures,
   _i1.RollbackDatabase? rollbackDatabase,
   String? runMode,
   _i2.ServerpodLoggingMode? serverpodLoggingMode,
@@ -89,6 +94,7 @@ void withServerpod(
       applyMigrations: applyMigrations,
       isDatabaseEnabled: true,
       serverpodLoggingMode: serverpodLoggingMode,
+      experimentalFeatures: experimentalFeatures,
     ),
     maybeRollbackDatabase: rollbackDatabase,
     maybeEnableSessionLogging: enableSessionLogging,
@@ -99,6 +105,8 @@ void withServerpod(
 
 class TestEndpoints {
   late final _AssetEndpoint asset;
+
+  late final _EventTemplateEndpoint eventTemplate;
 
   late final _ExampleEndpoint example;
 
@@ -115,6 +123,10 @@ class _InternalTestEndpoints extends TestEndpoints
     _i2.EndpointDispatch endpoints,
   ) {
     asset = _AssetEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    eventTemplate = _EventTemplateEndpoint(
       endpoints,
       serializationManager,
     );
@@ -202,6 +214,108 @@ class _AssetEndpoint {
   }
 }
 
+class _EventTemplateEndpoint {
+  _EventTemplateEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<_i4.EventTemplateList> list(
+    _i1.TestSessionBuilder sessionBuilder, {
+    required int limit,
+    required int page,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'eventTemplate',
+        method: 'list',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'eventTemplate',
+          methodName: 'list',
+          parameters: _i1.testObjectToJson({
+            'limit': limit,
+            'page': page,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<_i4.EventTemplateList>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<_i5.EventTemplate?> retrieve(
+    _i1.TestSessionBuilder sessionBuilder,
+    int id,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'eventTemplate',
+        method: 'retrieve',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'eventTemplate',
+          methodName: 'retrieve',
+          parameters: _i1.testObjectToJson({'id': id}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<_i5.EventTemplate?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<_i5.EventTemplate?> save(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i5.EventTemplate eventTemplate,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'eventTemplate',
+        method: 'save',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'eventTemplate',
+          methodName: 'save',
+          parameters: _i1.testObjectToJson({'eventTemplate': eventTemplate}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<_i5.EventTemplate?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
 class _ExampleEndpoint {
   _ExampleEndpoint(
     this._endpointDispatch,
@@ -252,7 +366,7 @@ class _UserEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i4.User?> me(_i1.TestSessionBuilder sessionBuilder) async {
+  _i3.Future<_i6.User?> me(_i1.TestSessionBuilder sessionBuilder) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
@@ -270,7 +384,7 @@ class _UserEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i4.User?>);
+        ) as _i3.Future<_i6.User?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -289,7 +403,7 @@ class _VenueEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i5.VenueList> list(
+  _i3.Future<_i7.VenueList> list(
     _i1.TestSessionBuilder sessionBuilder, {
     required int limit,
     required int page,
@@ -314,7 +428,7 @@ class _VenueEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i5.VenueList>);
+        ) as _i3.Future<_i7.VenueList>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -322,7 +436,7 @@ class _VenueEndpoint {
     });
   }
 
-  _i3.Future<_i6.Venue?> retrieve(
+  _i3.Future<_i8.Venue?> retrieve(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
   ) async {
@@ -343,7 +457,7 @@ class _VenueEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i6.Venue?>);
+        ) as _i3.Future<_i8.Venue?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -351,9 +465,9 @@ class _VenueEndpoint {
     });
   }
 
-  _i3.Future<_i6.Venue?> save(
+  _i3.Future<_i8.Venue?> save(
     _i1.TestSessionBuilder sessionBuilder,
-    _i6.Venue venue,
+    _i8.Venue venue,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -372,7 +486,7 @@ class _VenueEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<_i6.Venue?>);
+        ) as _i3.Future<_i8.Venue?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -380,7 +494,7 @@ class _VenueEndpoint {
     });
   }
 
-  _i3.Future<List<_i7.GooglePlace>> searchPlace(
+  _i3.Future<List<_i9.GooglePlace>> searchPlace(
     _i1.TestSessionBuilder sessionBuilder,
     String query,
   ) async {
@@ -401,7 +515,7 @@ class _VenueEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<List<_i7.GooglePlace>>);
+        ) as _i3.Future<List<_i9.GooglePlace>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -409,7 +523,7 @@ class _VenueEndpoint {
     });
   }
 
-  _i3.Future<List<_i6.Venue>> map(
+  _i3.Future<List<_i8.Venue>> map(
     _i1.TestSessionBuilder sessionBuilder,
     int hubId,
   ) async {
@@ -430,7 +544,7 @@ class _VenueEndpoint {
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _i3.Future<List<_i6.Venue>>);
+        ) as _i3.Future<List<_i8.Venue>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

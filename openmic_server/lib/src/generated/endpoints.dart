@@ -11,11 +11,13 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/asset_endpoint.dart' as _i2;
-import '../endpoints/example_endpoint.dart' as _i3;
-import '../endpoints/user_endpoint.dart' as _i4;
-import '../endpoints/venue_endpoint.dart' as _i5;
-import 'package:openmic_server/src/generated/venue.dart' as _i6;
-import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i7;
+import '../endpoints/event_template_endpoint.dart' as _i3;
+import '../endpoints/example_endpoint.dart' as _i4;
+import '../endpoints/user_endpoint.dart' as _i5;
+import '../endpoints/venue_endpoint.dart' as _i6;
+import 'package:openmic_server/src/generated/event_template.dart' as _i7;
+import 'package:openmic_server/src/generated/venue.dart' as _i8;
+import 'package:serverpod_auth_server/serverpod_auth_server.dart' as _i9;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -27,19 +29,25 @@ class Endpoints extends _i1.EndpointDispatch {
           'asset',
           null,
         ),
-      'example': _i3.ExampleEndpoint()
+      'eventTemplate': _i3.EventTemplateEndpoint()
+        ..initialize(
+          server,
+          'eventTemplate',
+          null,
+        ),
+      'example': _i4.ExampleEndpoint()
         ..initialize(
           server,
           'example',
           null,
         ),
-      'user': _i4.UserEndpoint()
+      'user': _i5.UserEndpoint()
         ..initialize(
           server,
           'user',
           null,
         ),
-      'venue': _i5.VenueEndpoint()
+      'venue': _i6.VenueEndpoint()
         ..initialize(
           server,
           'venue',
@@ -88,6 +96,73 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['eventTemplate'] = _i1.EndpointConnector(
+      name: 'eventTemplate',
+      endpoint: endpoints['eventTemplate']!,
+      methodConnectors: {
+        'list': _i1.MethodConnector(
+          name: 'list',
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'page': _i1.ParameterDescription(
+              name: 'page',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['eventTemplate'] as _i3.EventTemplateEndpoint).list(
+            session,
+            limit: params['limit'],
+            page: params['page'],
+          ),
+        ),
+        'retrieve': _i1.MethodConnector(
+          name: 'retrieve',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['eventTemplate'] as _i3.EventTemplateEndpoint)
+                  .retrieve(
+            session,
+            params['id'],
+          ),
+        ),
+        'save': _i1.MethodConnector(
+          name: 'save',
+          params: {
+            'eventTemplate': _i1.ParameterDescription(
+              name: 'eventTemplate',
+              type: _i1.getType<_i7.EventTemplate>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['eventTemplate'] as _i3.EventTemplateEndpoint).save(
+            session,
+            params['eventTemplate'],
+          ),
+        ),
+      },
+    );
     connectors['example'] = _i1.EndpointConnector(
       name: 'example',
       endpoint: endpoints['example']!,
@@ -105,7 +180,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['example'] as _i3.ExampleEndpoint).hello(
+              (endpoints['example'] as _i4.ExampleEndpoint).hello(
             session,
             params['name'],
           ),
@@ -123,7 +198,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['user'] as _i4.UserEndpoint).me(session),
+              (endpoints['user'] as _i5.UserEndpoint).me(session),
         )
       },
     );
@@ -149,7 +224,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['venue'] as _i5.VenueEndpoint).list(
+              (endpoints['venue'] as _i6.VenueEndpoint).list(
             session,
             limit: params['limit'],
             page: params['page'],
@@ -168,7 +243,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['venue'] as _i5.VenueEndpoint).retrieve(
+              (endpoints['venue'] as _i6.VenueEndpoint).retrieve(
             session,
             params['id'],
           ),
@@ -178,7 +253,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'venue': _i1.ParameterDescription(
               name: 'venue',
-              type: _i1.getType<_i6.Venue>(),
+              type: _i1.getType<_i8.Venue>(),
               nullable: false,
             )
           },
@@ -186,7 +261,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['venue'] as _i5.VenueEndpoint).save(
+              (endpoints['venue'] as _i6.VenueEndpoint).save(
             session,
             params['venue'],
           ),
@@ -204,7 +279,7 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['venue'] as _i5.VenueEndpoint).searchPlace(
+              (endpoints['venue'] as _i6.VenueEndpoint).searchPlace(
             session,
             params['query'],
           ),
@@ -222,13 +297,13 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['venue'] as _i5.VenueEndpoint).map(
+              (endpoints['venue'] as _i6.VenueEndpoint).map(
             session,
             params['hubId'],
           ),
         ),
       },
     );
-    modules['serverpod_auth'] = _i7.Endpoints()..initializeEndpoints(server);
+    modules['serverpod_auth'] = _i9.Endpoints()..initializeEndpoints(server);
   }
 }

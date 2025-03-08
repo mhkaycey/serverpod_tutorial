@@ -1,0 +1,11 @@
+
+
+enum: DayOfTheWeek
+values:
+ - sunday
+ - monday
+ - tuesday
+ - wednesday
+ - thursday
+ - friday
+ - saturday

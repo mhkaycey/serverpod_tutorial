@@ -1,6 +1,10 @@
 asset:
   - getUploadDescription:
   - verifyUpload:
+eventTemplate:
+  - list:
+  - retrieve:
+  - save:
 example:
   - hello:
 user:

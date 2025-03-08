@@ -9,11 +9,12 @@
 // ignore_for_file: use_super_parameters
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'venue.dart' as _i2;
+import 'package:serverpod/serverpod.dart' as _i1;
+import 'event.dart' as _i2;
 
-abstract class VenueList implements _i1.SerializableModel {
-  VenueList._({
+abstract class EventList
+    implements _i1.SerializableModel, _i1.ProtocolSerialization {
+  EventList._({
     required this.count,
     required this.results,
     required this.page,
@@ -22,20 +23,20 @@ abstract class VenueList implements _i1.SerializableModel {
     required this.canLoadMore,
   });
 
-  factory VenueList({
+  factory EventList({
     required int count,
-    required List<_i2.Venue> results,
+    required List<_i2.Event> results,
     required int page,
     required int limit,
     required int numPages,
     required bool canLoadMore,
-  }) = _VenueListImpl;
+  }) = _EventListImpl;
 
-  factory VenueList.fromJson(Map<String, dynamic> jsonSerialization) {
-    return VenueList(
+  factory EventList.fromJson(Map<String, dynamic> jsonSerialization) {
+    return EventList(
       count: jsonSerialization['count'] as int,
       results: (jsonSerialization['results'] as List)
-          .map((e) => _i2.Venue.fromJson((e as Map<String, dynamic>)))
+          .map((e) => _i2.Event.fromJson((e as Map<String, dynamic>)))
           .toList(),
       page: jsonSerialization['page'] as int,
       limit: jsonSerialization['limit'] as int,
@@ -46,7 +47,7 @@ abstract class VenueList implements _i1.SerializableModel {
 
   int count;
 
-  List<_i2.Venue> results;
+  List<_i2.Event> results;
 
   int page;
 
@@ -56,12 +57,12 @@ abstract class VenueList implements _i1.SerializableModel {
 
   bool canLoadMore;
 
-  /// Returns a shallow copy of this [VenueList]
+  /// Returns a shallow copy of this [EventList]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
-  VenueList copyWith({
+  EventList copyWith({
     int? count,
-    List<_i2.Venue>? results,
+    List<_i2.Event>? results,
     int? page,
     int? limit,
     int? numPages,
@@ -80,15 +81,27 @@ abstract class VenueList implements _i1.SerializableModel {
   }
 
   @override
+  Map<String, dynamic> toJsonForProtocol() {
+    return {
+      'count': count,
+      'results': results.toJson(valueToJson: (v) => v.toJsonForProtocol()),
+      'page': page,
+      'limit': limit,
+      'numPages': numPages,
+      'canLoadMore': canLoadMore,
+    };
+  }
+
+  @override
   String toString() {
     return _i1.SerializationManager.encode(this);
   }
 }
 
-class _VenueListImpl extends VenueList {
-  _VenueListImpl({
+class _EventListImpl extends EventList {
+  _EventListImpl({
     required int count,
-    required List<_i2.Venue> results,
+    required List<_i2.Event> results,
     required int page,
     required int limit,
     required int numPages,
@@ -102,19 +115,19 @@ class _VenueListImpl extends VenueList {
           canLoadMore: canLoadMore,
         );
 
-  /// Returns a shallow copy of this [VenueList]
+  /// Returns a shallow copy of this [EventList]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
   @override
-  VenueList copyWith({
+  EventList copyWith({
     int? count,
-    List<_i2.Venue>? results,
+    List<_i2.Event>? results,
     int? page,
     int? limit,
     int? numPages,
     bool? canLoadMore,
   }) {
-    return VenueList(
+    return EventList(
       count: count ?? this.count,
       results: results ?? this.results.map((e0) => e0.copyWith()).toList(),
       page: page ?? this.page,

@@ -10,10 +10,10 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'venue.dart' as _i2;
+import 'event_template.dart' as _i2;
 
-abstract class VenueList implements _i1.SerializableModel {
-  VenueList._({
+abstract class EventTemplateList implements _i1.SerializableModel {
+  EventTemplateList._({
     required this.count,
     required this.results,
     required this.page,
@@ -22,20 +22,20 @@ abstract class VenueList implements _i1.SerializableModel {
     required this.canLoadMore,
   });
 
-  factory VenueList({
+  factory EventTemplateList({
     required int count,
-    required List<_i2.Venue> results,
+    required List<_i2.EventTemplate> results,
     required int page,
     required int limit,
     required int numPages,
     required bool canLoadMore,
-  }) = _VenueListImpl;
+  }) = _EventTemplateListImpl;
 
-  factory VenueList.fromJson(Map<String, dynamic> jsonSerialization) {
-    return VenueList(
+  factory EventTemplateList.fromJson(Map<String, dynamic> jsonSerialization) {
+    return EventTemplateList(
       count: jsonSerialization['count'] as int,
       results: (jsonSerialization['results'] as List)
-          .map((e) => _i2.Venue.fromJson((e as Map<String, dynamic>)))
+          .map((e) => _i2.EventTemplate.fromJson((e as Map<String, dynamic>)))
           .toList(),
       page: jsonSerialization['page'] as int,
       limit: jsonSerialization['limit'] as int,
@@ -46,7 +46,7 @@ abstract class VenueList implements _i1.SerializableModel {
 
   int count;
 
-  List<_i2.Venue> results;
+  List<_i2.EventTemplate> results;
 
   int page;
 
@@ -56,12 +56,12 @@ abstract class VenueList implements _i1.SerializableModel {
 
   bool canLoadMore;
 
-  /// Returns a shallow copy of this [VenueList]
+  /// Returns a shallow copy of this [EventTemplateList]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
-  VenueList copyWith({
+  EventTemplateList copyWith({
     int? count,
-    List<_i2.Venue>? results,
+    List<_i2.EventTemplate>? results,
     int? page,
     int? limit,
     int? numPages,
@@ -85,10 +85,10 @@ abstract class VenueList implements _i1.SerializableModel {
   }
 }
 
-class _VenueListImpl extends VenueList {
-  _VenueListImpl({
+class _EventTemplateListImpl extends EventTemplateList {
+  _EventTemplateListImpl({
     required int count,
-    required List<_i2.Venue> results,
+    required List<_i2.EventTemplate> results,
     required int page,
     required int limit,
     required int numPages,
@@ -102,19 +102,19 @@ class _VenueListImpl extends VenueList {
           canLoadMore: canLoadMore,
         );
 
-  /// Returns a shallow copy of this [VenueList]
+  /// Returns a shallow copy of this [EventTemplateList]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
   @override
-  VenueList copyWith({
+  EventTemplateList copyWith({
     int? count,
-    List<_i2.Venue>? results,
+    List<_i2.EventTemplate>? results,
     int? page,
     int? limit,
     int? numPages,
     bool? canLoadMore,
   }) {
-    return VenueList(
+    return EventTemplateList(
       count: count ?? this.count,
       results: results ?? this.results.map((e0) => e0.copyWith()).toList(),
       page: page ?? this.page,

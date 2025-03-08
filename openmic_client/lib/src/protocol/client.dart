@@ -11,12 +11,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:openmic_client/src/protocol/user.dart' as _i3;
-import 'package:openmic_client/src/protocol/venue_list.dart' as _i4;
-import 'package:openmic_client/src/protocol/venue.dart' as _i5;
-import 'package:openmic_client/src/protocol/google_place.dart' as _i6;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i7;
-import 'protocol.dart' as _i8;
+import 'package:openmic_client/src/protocol/event_template_list.dart' as _i3;
+import 'package:openmic_client/src/protocol/event_template.dart' as _i4;
+import 'package:openmic_client/src/protocol/user.dart' as _i5;
+import 'package:openmic_client/src/protocol/venue_list.dart' as _i6;
+import 'package:openmic_client/src/protocol/venue.dart' as _i7;
+import 'package:openmic_client/src/protocol/google_place.dart' as _i8;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i9;
+import 'protocol.dart' as _i10;
 
 /// {@category Endpoint}
 class EndpointAsset extends _i1.EndpointRef {
@@ -36,6 +38,41 @@ class EndpointAsset extends _i1.EndpointRef {
         'asset',
         'verifyUpload',
         {'path': path},
+      );
+}
+
+/// {@category Endpoint}
+class EndpointEventTemplate extends _i1.EndpointRef {
+  EndpointEventTemplate(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'eventTemplate';
+
+  _i2.Future<_i3.EventTemplateList> list({
+    required int limit,
+    required int page,
+  }) =>
+      caller.callServerEndpoint<_i3.EventTemplateList>(
+        'eventTemplate',
+        'list',
+        {
+          'limit': limit,
+          'page': page,
+        },
+      );
+
+  _i2.Future<_i4.EventTemplate?> retrieve(int id) =>
+      caller.callServerEndpoint<_i4.EventTemplate?>(
+        'eventTemplate',
+        'retrieve',
+        {'id': id},
+      );
+
+  _i2.Future<_i4.EventTemplate?> save(_i4.EventTemplate eventTemplate) =>
+      caller.callServerEndpoint<_i4.EventTemplate?>(
+        'eventTemplate',
+        'save',
+        {'eventTemplate': eventTemplate},
       );
 }
 
@@ -60,7 +97,7 @@ class EndpointUser extends _i1.EndpointRef {
   @override
   String get name => 'user';
 
-  _i2.Future<_i3.User?> me() => caller.callServerEndpoint<_i3.User?>(
+  _i2.Future<_i5.User?> me() => caller.callServerEndpoint<_i5.User?>(
         'user',
         'me',
         {},
@@ -74,11 +111,11 @@ class EndpointVenue extends _i1.EndpointRef {
   @override
   String get name => 'venue';
 
-  _i2.Future<_i4.VenueList> list({
+  _i2.Future<_i6.VenueList> list({
     required int limit,
     required int page,
   }) =>
-      caller.callServerEndpoint<_i4.VenueList>(
+      caller.callServerEndpoint<_i6.VenueList>(
         'venue',
         'list',
         {
@@ -87,29 +124,29 @@ class EndpointVenue extends _i1.EndpointRef {
         },
       );
 
-  _i2.Future<_i5.Venue?> retrieve(int id) =>
-      caller.callServerEndpoint<_i5.Venue?>(
+  _i2.Future<_i7.Venue?> retrieve(int id) =>
+      caller.callServerEndpoint<_i7.Venue?>(
         'venue',
         'retrieve',
         {'id': id},
       );
 
-  _i2.Future<_i5.Venue?> save(_i5.Venue venue) =>
-      caller.callServerEndpoint<_i5.Venue?>(
+  _i2.Future<_i7.Venue?> save(_i7.Venue venue) =>
+      caller.callServerEndpoint<_i7.Venue?>(
         'venue',
         'save',
         {'venue': venue},
       );
 
-  _i2.Future<List<_i6.GooglePlace>> searchPlace(String query) =>
-      caller.callServerEndpoint<List<_i6.GooglePlace>>(
+  _i2.Future<List<_i8.GooglePlace>> searchPlace(String query) =>
+      caller.callServerEndpoint<List<_i8.GooglePlace>>(
         'venue',
         'searchPlace',
         {'query': query},
       );
 
-  _i2.Future<List<_i5.Venue>> map(int hubId) =>
-      caller.callServerEndpoint<List<_i5.Venue>>(
+  _i2.Future<List<_i7.Venue>> map(int hubId) =>
+      caller.callServerEndpoint<List<_i7.Venue>>(
         'venue',
         'map',
         {'hubId': hubId},
@@ -118,10 +155,10 @@ class EndpointVenue extends _i1.EndpointRef {
 
 class Modules {
   Modules(Client client) {
-    auth = _i7.Caller(client);
+    auth = _i9.Caller(client);
   }
 
-  late final _i7.Caller auth;
+  late final _i9.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -140,7 +177,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i8.Protocol(),
+          _i10.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -151,6 +188,7 @@ class Client extends _i1.ServerpodClientShared {
               disconnectStreamsOnLostInternetConnection,
         ) {
     asset = EndpointAsset(this);
+    eventTemplate = EndpointEventTemplate(this);
     example = EndpointExample(this);
     user = EndpointUser(this);
     venue = EndpointVenue(this);
@@ -158,6 +196,8 @@ class Client extends _i1.ServerpodClientShared {
   }
 
   late final EndpointAsset asset;
+
+  late final EndpointEventTemplate eventTemplate;
 
   late final EndpointExample example;
 
@@ -170,6 +210,7 @@ class Client extends _i1.ServerpodClientShared {
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
         'asset': asset,
+        'eventTemplate': eventTemplate,
         'example': example,
         'user': user,
         'venue': venue,

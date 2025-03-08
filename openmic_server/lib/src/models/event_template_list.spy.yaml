@@ -1,0 +1,9 @@
+class: EventTemplateList 
+
+fields:
+    count: int
+    results: List<EventTemplate>
+    page: int
+    limit: int
+    numPages: int
+    canLoadMore: bool

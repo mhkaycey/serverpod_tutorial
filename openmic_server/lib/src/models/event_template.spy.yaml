@@ -1,0 +1,16 @@
+class: EventTemplate
+
+table: event_template
+
+fields:
+    owner: User?, relation
+    venue: Venue?, relation
+    name: String
+    description: String
+    startsOn: DateTime
+    repeats: bool
+    dayOfWeek: DayOfTheWeek
+    primaryImageUrl: String
+    forMusic: bool
+    forComedy: bool
+    forPoetry: bool

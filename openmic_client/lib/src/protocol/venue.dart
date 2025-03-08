@@ -109,6 +109,9 @@ abstract class Venue implements _i1.SerializableModel {
 
   bool isVerified;
 
+  /// Returns a shallow copy of this [Venue]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   Venue copyWith({
     int? id,
     int? ownerId,
@@ -190,6 +193,9 @@ class _VenueImpl extends Venue {
           isVerified: isVerified,
         );
 
+  /// Returns a shallow copy of this [Venue]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   Venue copyWith({
     Object? id = _Undefined,

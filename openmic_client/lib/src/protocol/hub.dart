@@ -46,6 +46,9 @@ abstract class Hub implements _i1.SerializableModel {
 
   double longitude;
 
+  /// Returns a shallow copy of this [Hub]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   Hub copyWith({
     int? id,
     String? name,
@@ -83,6 +86,9 @@ class _HubImpl extends Hub {
           longitude: longitude,
         );
 
+  /// Returns a shallow copy of this [Hub]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   Hub copyWith({
     Object? id = _Undefined,

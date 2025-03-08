@@ -48,6 +48,9 @@ abstract class GooglePlace implements _i1.SerializableModel {
 
   String address;
 
+  /// Returns a shallow copy of this [GooglePlace]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   GooglePlace copyWith({
     String? placeId,
     String? name,
@@ -87,6 +90,9 @@ class _GooglePlaceImpl extends GooglePlace {
           address: address,
         );
 
+  /// Returns a shallow copy of this [GooglePlace]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   GooglePlace copyWith({
     String? placeId,

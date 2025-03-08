@@ -57,6 +57,9 @@ abstract class VenueList
 
   bool canLoadMore;
 
+  /// Returns a shallow copy of this [VenueList]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   VenueList copyWith({
     int? count,
     List<_i2.Venue>? results,
@@ -112,6 +115,9 @@ class _VenueListImpl extends VenueList {
           canLoadMore: canLoadMore,
         );
 
+  /// Returns a shallow copy of this [VenueList]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   VenueList copyWith({
     int? count,

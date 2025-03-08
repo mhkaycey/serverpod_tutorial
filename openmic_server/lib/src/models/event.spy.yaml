@@ -1,0 +1,11 @@
+class: Event
+
+table: events
+
+fields:
+    template: EventTemplate?, relation
+    startsOn: DateTime
+    description: String? 
+    forMusic: bool
+    forComedy: bool
+    forPoetry: bool

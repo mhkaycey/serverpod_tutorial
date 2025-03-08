@@ -51,6 +51,9 @@ abstract class Hub implements _i1.TableRow, _i1.ProtocolSerialization {
   @override
   _i1.Table get table => t;
 
+  /// Returns a shallow copy of this [Hub]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   Hub copyWith({
     int? id,
     String? name,
@@ -122,6 +125,9 @@ class _HubImpl extends Hub {
           longitude: longitude,
         );
 
+  /// Returns a shallow copy of this [Hub]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   Hub copyWith({
     Object? id = _Undefined,
@@ -202,6 +208,28 @@ class HubIncludeList extends _i1.IncludeList {
 class HubRepository {
   const HubRepository._();
 
+  /// Returns a list of [Hub]s matching the given query parameters.
+  ///
+  /// Use [where] to specify which items to include in the return value.
+  /// If none is specified, all items will be returned.
+  ///
+  /// To specify the order of the items use [orderBy] or [orderByList]
+  /// when sorting by multiple columns.
+  ///
+  /// The maximum number of items can be set by [limit]. If no limit is set,
+  /// all items matching the query will be returned.
+  ///
+  /// [offset] defines how many items to skip, after which [limit] (or all)
+  /// items are read from the database.
+  ///
+  /// ```dart
+  /// var persons = await Persons.db.find(
+  ///   session,
+  ///   where: (t) => t.lastName.equals('Jones'),
+  ///   orderBy: (t) => t.firstName,
+  ///   limit: 100,
+  /// );
+  /// ```
   Future<List<Hub>> find(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<HubTable>? where,
@@ -223,6 +251,23 @@ class HubRepository {
     );
   }
 
+  /// Returns the first matching [Hub] matching the given query parameters.
+  ///
+  /// Use [where] to specify which items to include in the return value.
+  /// If none is specified, all items will be returned.
+  ///
+  /// To specify the order use [orderBy] or [orderByList]
+  /// when sorting by multiple columns.
+  ///
+  /// [offset] defines how many items to skip, after which the next one will be picked.
+  ///
+  /// ```dart
+  /// var youngestPerson = await Persons.db.findFirstRow(
+  ///   session,
+  ///   where: (t) => t.lastName.equals('Jones'),
+  ///   orderBy: (t) => t.age,
+  /// );
+  /// ```
   Future<Hub?> findFirstRow(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<HubTable>? where,
@@ -242,6 +287,7 @@ class HubRepository {
     );
   }
 
+  /// Finds a single [Hub] by its [id] or null if no such row exists.
   Future<Hub?> findById(
     _i1.Session session,
     int id, {
@@ -253,6 +299,12 @@ class HubRepository {
     );
   }
 
+  /// Inserts all [Hub]s in the list and returns the inserted rows.
+  ///
+  /// The returned [Hub]s will have their `id` fields set.
+  ///
+  /// This is an atomic operation, meaning that if one of the rows fails to
+  /// insert, none of the rows will be inserted.
   Future<List<Hub>> insert(
     _i1.Session session,
     List<Hub> rows, {
@@ -264,6 +316,9 @@ class HubRepository {
     );
   }
 
+  /// Inserts a single [Hub] and returns the inserted row.
+  ///
+  /// The returned [Hub] will have its `id` field set.
   Future<Hub> insertRow(
     _i1.Session session,
     Hub row, {
@@ -275,6 +330,11 @@ class HubRepository {
     );
   }
 
+  /// Updates all [Hub]s in the list and returns the updated rows. If
+  /// [columns] is provided, only those columns will be updated. Defaults to
+  /// all columns.
+  /// This is an atomic operation, meaning that if one of the rows fails to
+  /// update, none of the rows will be updated.
   Future<List<Hub>> update(
     _i1.Session session,
     List<Hub> rows, {
@@ -288,6 +348,9 @@ class HubRepository {
     );
   }
 
+  /// Updates a single [Hub]. The row needs to have its id set.
+  /// Optionally, a list of [columns] can be provided to only update those
+  /// columns. Defaults to all columns.
   Future<Hub> updateRow(
     _i1.Session session,
     Hub row, {
@@ -301,6 +364,9 @@ class HubRepository {
     );
   }
 
+  /// Deletes all [Hub]s in the list and returns the deleted rows.
+  /// This is an atomic operation, meaning that if one of the rows fail to
+  /// be deleted, none of the rows will be deleted.
   Future<List<Hub>> delete(
     _i1.Session session,
     List<Hub> rows, {
@@ -312,6 +378,7 @@ class HubRepository {
     );
   }
 
+  /// Deletes a single [Hub].
   Future<Hub> deleteRow(
     _i1.Session session,
     Hub row, {
@@ -323,6 +390,7 @@ class HubRepository {
     );
   }
 
+  /// Deletes all rows matching the [where] expression.
   Future<List<Hub>> deleteWhere(
     _i1.Session session, {
     required _i1.WhereExpressionBuilder<HubTable> where,
@@ -334,6 +402,8 @@ class HubRepository {
     );
   }
 
+  /// Counts the number of rows matching the [where] expression. If omitted,
+  /// will return the count of all rows in the table.
   Future<int> count(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<HubTable>? where,
