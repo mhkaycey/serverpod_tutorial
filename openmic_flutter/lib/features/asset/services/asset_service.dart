@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:openmic_client/openmic_client.dart';
@@ -12,10 +13,14 @@ class AssetService {
   AssetService(this.client);
 
   Future<Either<String, String>> uploadImage(XFile image) async {
-    final remotePath = "${StringUtils.generateRandomString(16)}/.${image.name}";
+    final remotePath =
+        "${StringUtils.generateRandomString(16)}.${image.path.split('.').last}";
+
+    print(remotePath);
 
     final uploadDescription =
         await client.asset.getUploadDescription(remotePath);
+    log("Upload description: $uploadDescription");
     if (uploadDescription == null) {
       return left("Could not get upload description");
     }
@@ -23,12 +28,20 @@ class AssetService {
     final uploader = FileUploader(uploadDescription);
     final stream = image.openRead();
     final length = (await image.readAsBytes()).length;
-    await uploader.upload(stream, length);
 
-    final success = await client.asset.verifyUpload(remotePath);
-    if (!success) {
-      return left("Could not complete upload");
+    final result = await uploader.upload(stream, length);
+
+    if (kDebugMode) {
+      print("result: $result");
     }
+
+    // final success = await client.asset.verifyUpload(remotePath);
+    // if (kDebugMode) {
+    //   print("Success: $success");
+    // }
+    // if (!success) {
+    //   return left("Could not complete upload");
+    // }
 
     try {
       final Map<String, dynamic> decodedDescription =

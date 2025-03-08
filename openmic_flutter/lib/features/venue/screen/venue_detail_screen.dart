@@ -17,17 +17,6 @@ class VenueDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final venue = ref.watch(venueDetailProvider(venueId));
     return Scaffold(
-      // appBar: AppBar(
-      //   // centerTitle: true,
-      //   // title: Text('Venue Detail'),
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(Icons.edit),
-      //       onPressed: () {},
-      //     ),
-      //   ],
-      // ),
-
       appBar: venue.when(
         data: (venue) {
           if (venue == null) {

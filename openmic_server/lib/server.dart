@@ -61,6 +61,7 @@ void run(List<String> args) async {
       region: 'auto',
       public: true,
       bucket: 'openmic-develop',
+      publicHost: 'https://storage.googleapis.com/openmic-develop',
     ),
   );
   await pod.start();

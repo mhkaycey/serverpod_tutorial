@@ -10,7 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_router.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 GoRouter router(Ref ref) {
   return GoRouter(
     initialLocation: PostRoutes.namespace,

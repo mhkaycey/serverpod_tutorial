@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -27,7 +29,13 @@ class VenueFormComponent extends ConsumerWidget {
                 label: Text("Venue Name"),
               ),
             ),
-            AssetUploadComponent(),
+            AssetUploadComponent(
+              url: state.venue.primaryImageUrl,
+              onComplete: (imageUrl) {
+                provider.setPrimaryImageUrl(imageUrl);
+              },
+              label: 'Venue Image',
+            ),
             TextFormField(
               controller: provider.bioController,
               validator: (value) =>

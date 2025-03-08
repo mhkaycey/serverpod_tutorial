@@ -12,12 +12,13 @@ class VenueDetailComponent extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(
-            "https://picsum.photos/600/400",
-            width: double.infinity,
-            height: 200,
-            fit: BoxFit.cover,
-          ),
+          if (venue.primaryImageUrl.isNotEmpty)
+            Image.network(
+              venue.primaryImageUrl,
+              width: double.infinity,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8).copyWith(top: 8),
             child: Column(

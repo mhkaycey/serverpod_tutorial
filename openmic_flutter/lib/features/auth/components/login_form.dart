@@ -93,6 +93,46 @@ class _LoginFormState extends ConsumerState<LoginForm> {
             },
             child: const Text('Login'),
           ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     ref.read(authServiceProvider).registerWithEmail(
+          //           email: "kelechimark123@gmail.com",
+          //           password: "qwerty123",
+          //           username: "Mhkaycey",
+          //         );
+          //   },
+          //   child: Text("Create Account"),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     ref.read(authServiceProvider).confirmEmailRegister(
+          //         email: "kelechimark123@gmail.com",
+          //         verificationCode: "VIH5i4BE",
+          //         password: "qwerty123");
+          //   },
+          //   child: Text("Verify Account"),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     await ref.read(authProvider.notifier).loginWithEmail(
+          //           email: "kelechimark123@gmail.com",
+          //           password: "qwety123",
+          //         );
+          //   },
+          //   child: Text("Login"),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     ref.read(authProvider.notifier).logout();
+          //   },
+          //   child: Text("Sign Out"),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     // ref.read(authProvider.notifier).updateText("Helle World");
+          //   },
+          //   child: Text("Update Text"),
+          // )
         ],
       ),
     );

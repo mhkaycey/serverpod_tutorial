@@ -13,12 +13,15 @@ class VenueTiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: ListTile(
         leading: venue.primaryImageUrl.isNotEmpty
             ? Image.network(
                 venue.primaryImageUrl,
-                width: 40,
-                height: 40,
+                width: 50,
+                height: 50,
                 fit: BoxFit.cover,
               )
             : Icon(Icons.store),

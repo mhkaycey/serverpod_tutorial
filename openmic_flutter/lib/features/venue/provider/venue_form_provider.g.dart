@@ -6,7 +6,7 @@ part of 'venue_form_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$venueFormHash() => r'3dd8b113835e804dca379b578c414c60ab0c06d5';
+String _$venueFormHash() => r'357ef492c688555206ca734d8ba4166332b42ad4';
 
 /// See also [VenueForm].
 @ProviderFor(VenueForm)

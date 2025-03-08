@@ -50,6 +50,10 @@ class VenueForm extends _$VenueForm {
     );
   }
 
+  void setPrimaryImageUrl(String imageUrl) {
+    state = state.update(state.venue.copyWith(primaryImageUrl: imageUrl));
+  }
+
   void _refreshController() {
     nameController.text = state.venue.name;
     bioController.text = state.venue.bio;
